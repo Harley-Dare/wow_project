@@ -7,6 +7,7 @@ import json
 from Character import Character
 from requests.exceptions import RequestException 
 import sqlite3
+import math
 
 
 
@@ -116,11 +117,53 @@ def write_to_json(data, filename):
     with open(f"{filename}", "w") as json_file:
         json.dump(data, json_file, indent=4)
     print(f"Saved data to {filename}")
+    
+# database populating
+def populate_db(name, character_class, item_level, rating):
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+    cursor.execute(f'''
+        CREATE TABLE IF NOT EXISTS data (
+            name TEXT,
+            class TEXT,
+            item_level INTEGER,
+            rating INTEGER
+        )
+    ''')
+    
+    cursor.execute(f'''
+                   INSERT INTO data (name, class, item_level, rating)
+                   VALUES (?, ?, ?, ?)
+    ''', (name, character_class, item_level, rating))
+    conn.commit()
 
+# clear table
+def clear_table():
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT COUNT(*) FROM data")
+    row_count = cursor.fetchone()[0]
+    # If the table has contents (row_count > 0), delete the rows
+    if row_count > 0:
+        cursor.execute(f"DELETE FROM data")
+        conn.commit()
+        print(f"Cleared {row_count} rows from data.")
+    else:
+        print(f"No rows to clear in data.")
+
+# sort table by item level
+def sort_table_by_ilvl():
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+    sort = "SELECT * FROM data ORDER BY item_level DESC"
+    cursor.execute(sort)
+    
 
 
 #####################
 characters = read_in_characters()
+database_name = "data"
+clear_table()
 
 try:
     for character in characters:
@@ -133,11 +176,13 @@ try:
         character_profile_data = get_character_profile(temp_name, temp_server, temp_region)
         character_keystone_data = get_character_keystone_data(temp_name, temp_server, temp_region)
         
-        character.mythic_rating = character_keystone_data["mythic_rating"]["rating"]
+        character.mythic_rating = math.floor(character_keystone_data["mythic_rating"]["rating"])
         character.item_level = character_profile_data["average_item_level"]
+        character.character_class = character_profile_data["character_class"]["name"]["en_US"]
+        
+        populate_db(temp_name, character.character_class, character.item_level, character.mythic_rating)
 
 except RequestException as e:
     print(f"Error with {temp_name}")
     
-
-
+sort_table_by_ilvl()

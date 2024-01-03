@@ -5,6 +5,7 @@ class Character:
         self.region = region
         self.item_level = -1
         self.mythic_rating = -1
+        self.character_class = "unknown"
         
         @property
         def item_level(self):
@@ -21,6 +22,16 @@ class Character:
         @mythic_rating.setter
         def mythic_rating(self, value):
             self.mythic_rating = value
+            
+        @property
+        def character_class(self):
+            return self.character_class
+        
+        @character_class.setter
+        def character_class(self, value):
+            self.character_class = value
+        
+        
             
         
         
