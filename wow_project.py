@@ -119,7 +119,7 @@ def write_to_json(data, filename):
     print(f"Saved data to {filename}")
     
 # database populating
-def populate_db(name, character_class, item_level, rating):
+def populate_db(name, character_class, item_level, rating, server, region):
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
     cursor.execute(f'''
@@ -127,14 +127,16 @@ def populate_db(name, character_class, item_level, rating):
             name TEXT,
             class TEXT,
             item_level INTEGER,
-            rating INTEGER
+            rating INTEGER,
+            server TEXT,
+            region TEXT
         )
     ''')
     
     cursor.execute(f'''
-                   INSERT INTO data (name, class, item_level, rating)
-                   VALUES (?, ?, ?, ?)
-    ''', (name, character_class, item_level, rating))
+                   INSERT INTO data (name, class, item_level, rating, server, region)
+                   VALUES (?, ?, ?, ?, ?, ?)
+    ''', (name, character_class, item_level, rating, server, region))
     conn.commit()
 
 # clear table
@@ -163,8 +165,10 @@ def sort_table_by_ilvl():
 #####################
 characters = read_in_characters()
 database_name = "data"
-clear_table()
-
+try:
+ clear_table()
+except:
+    print("ow")
 try:
     for character in characters:
         temp_name = character.name
@@ -180,7 +184,7 @@ try:
         character.item_level = character_profile_data["average_item_level"]
         character.character_class = character_profile_data["character_class"]["name"]["en_US"]
         
-        populate_db(temp_name, character.character_class, character.item_level, character.mythic_rating)
+        populate_db(temp_name, character.character_class, character.item_level, character.mythic_rating, temp_server, temp_region)
 
 except RequestException as e:
     print(f"Error with {temp_name}")

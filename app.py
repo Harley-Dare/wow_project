@@ -3,6 +3,22 @@ import sqlite3
 
 app = Flask(__name__)
 
+class_colors = {
+    "Warrior": "#C79C6E",
+    "Paladin": "#F58CBA",
+    "Hunter": "#ABD473",
+    "Rogue": "#FFF569",
+    "Priest": "#FFFFFF",
+    "Death Knight": "#C41F3B",
+    "Shaman": "#0070DE",
+    "Mage": "#69CCF0",
+    "Warlock": "#9482C9",
+    "Monk": "#00FF96",
+    "Druid": "#FF7D0A",
+    "Demon Hunter": "#A330C9",
+    "Evoker": "#33937F"
+}
+
 def get_sorted_characters(sort_by, sort_order):
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
@@ -32,7 +48,11 @@ def index():
     characters = get_sorted_characters(sort_by, sort_order)
     return render_template('index.html', characters=characters,
                            sort_by=sort_by, sort_order=sort_order,
-                           prev_sort=sort_by, prev_order=sort_order)
+                           prev_sort=sort_by, prev_order=sort_order,
+                           class_colors=class_colors)
+    
+
+
 
 
 if __name__ == '__main__':

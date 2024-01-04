@@ -62,7 +62,13 @@
         </tr>
         {% for char in characters %}
         <tr>
-            <td>{{ char[0] }}</td>
+            <td>
+                <a href="https://raider.io/characters/{{ char[5] }}/{{ char[4] }}/{{ char[0] }}"
+                   target="_blank"
+                   style="color: {{ class_colors[char[1]] }};">
+                    {{ char[0] }}
+                </a>
+            </td>
             <td>{{ char[1] }}</td>
             <td>{{ char[2] }}</td>
             <td>{{ char[3] }}</td>
