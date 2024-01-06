@@ -1,6 +1,6 @@
-Gathers World of Warcraft character information for all characters provided in the config file
-Saves character information to a database and displays it on a webpage using Flask
-If you click the characters name it will open a new tab taking you to their raider.io profile
+Gathers World of Warcraft character information for all characters provided in the config file.  
+Saves character information to a database and displays it on a webpage using Flask.  
+Click the characters name it will open a new tab taking you to their raider.io profile
 
 
 # Set up 
