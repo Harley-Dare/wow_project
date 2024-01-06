@@ -42,7 +42,7 @@ def read_in_characters():
     config_file = "/home/harley/Documents/programming/wow_project/config.ini"
     config = read_config(config_file)
     characters_full_string = config.get("Characters", "characters")
-    character_list_split = characters_full_string.split("; ")
+    character_list_split = [char.strip() for char in characters_full_string.split(';') if char.strip()]
     characters = []
     
     for character in character_list_split:
@@ -110,7 +110,27 @@ def get_character_keystone_data(name, server, region):
         sys.exit(1) 
     else:
         keystone_data = response.json()
-        return keystone_data      
+        return keystone_data
+
+# get stats for character, unused currently
+def get_characters_stats(name, server, region):
+    API_KEY = get_token()
+    API_URL = f"https://{region}.api.blizzard.com/profile/wow/character/{server}/{name}/statistics"
+
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Battlenet-Namespace": f"profile-{region}",
+    }
+    
+    response = requests.get(API_URL, headers=headers)
+    
+    if response.status_code != 200:
+        print(f"Failed to fetch character statistics. Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
+        sys.exit(1) 
+    else:
+        character_stats = response.json()
+        return character_stats
 
 # write data to json
 def write_to_json(data, filename):
@@ -188,5 +208,3 @@ try:
 
 except RequestException as e:
     print(f"Error with {temp_name}")
-    
-sort_table_by_ilvl()
