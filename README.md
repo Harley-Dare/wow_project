@@ -4,6 +4,8 @@ Click the characters name it will open a new tab taking you to their raider.io p
 
 
 # Set up 
+Go to the directory and **pip install -r requirements.txt** 
+
 Edit config.ini to include your own Client ID and Secret (https://develop.battle.net/documentation/guides/using-oauth).
 
 Edit config.ini to include characters you are interested in seeing (name, server, region).
