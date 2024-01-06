@@ -4,12 +4,12 @@ Click the characters name it will open a new tab taking you to their raider.io p
 
 
 # Set up 
-Edit config.ini to include your own Client ID and Secret (https://develop.battle.net/documentation/guides/using-oauth)
+Edit config.ini to include your own Client ID and Secret (https://develop.battle.net/documentation/guides/using-oauth).
 
-Edit config.ini to include characters you are interested in seeing (name, server, region)
+Edit config.ini to include characters you are interested in seeing (name, server, region).
 
 # Use
-Go to the working directory where you saved the files and run app.py
+Go to the working directory where you saved the files and run app.py.  
 Open to your browser and go to http://127.0.0.1:5000/
 
 ![Example Image](/example.png)
