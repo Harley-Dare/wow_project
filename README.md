@@ -10,7 +10,7 @@ Edit config.ini to include characters you are interested in seeing (name, server
 
 # Use
 Go to the working directory where you saved the files and run app.py.  
-Open to your browser and go to http://127.0.0.1:5000/
+Open your browser and go to http://127.0.0.1:5000/
 
 ![Example Image](/example.png)
 
